@@ -13,7 +13,8 @@
              (d/img {:className "w-10"
                      :onClick #(router/redirect! props :router {:page "home"})
                      :src "/image/burger-logo.b8503d26.png"})
-             (d/nav {:className "text-gray-800 font-semibold hover:text-green-700 hover:border-b-2 hover:border-green-900"} 
+             (d/nav {:className "text-gray-800 font-semibold hover:text-green-700 hover:border-b-2 hover:border-green-900"
+                     :onClick #(router/redirect! props :router {:page "signIn"})} 
                     "Sign in")))
  
 (def Navbar (with-keechma NavbarRenderer))
