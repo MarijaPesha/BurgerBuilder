@@ -143,13 +143,13 @@
 
 
 (def default-validations
-  {:not-empty {:message "Please enter a value.", :validator not-empty?},
+  {:not-empty {:message "Please enter a value!", :validator not-empty?},
    :true {:message "Please select a value.", :validator #(true? %1)},
    :wrong-access-token {:message "Please enter a valid access-token.",
                         :validator (fn [_ _ _] true)},
    :bool {:message "Please select a value.", :validator bool?},
    :url {:message "Please enter a valid URL.", :validator url?},
-   :email {:message "Please enter a valid email.", :validator email?},
+   :email {:message "Please enter a valid email!", :validator email?},
    :edu-email {:message "Please enter a valid .edu email.",
                :validator edu-email?},
    :email-confirmation {:message "Email doesn't match email confirmation.",
@@ -175,7 +175,7 @@
                             (or (= "State *" v) (nil? v) (empty? v))))))},
    :password-confirmation {:message "Passwords don't match.",
                            :validator password-confirmation},
-   :ok-password {:message "Password must contain at least 8 characters.",
+   :ok-password {:message "Password must contain at least 8 characters!",
                  :validator ok-password?},
    :numeric {:message "Please enter a number.", :validator numeric?},
    :numeric-with-decimal {:message "Value is not a valid type",

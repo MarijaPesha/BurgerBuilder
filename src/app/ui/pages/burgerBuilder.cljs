@@ -68,7 +68,7 @@
                 2  (d/div ($ Bacon) ($ Bacon))
                 3  (d/div ($ Bacon) ($ Bacon) ($ Bacon)))
               ($ BreadBottom)))
-     (d/div {:className "text-xl text-gray-600 font-semibold border-b"} "Total Price: " (.toFixed full-price 2))
+     (d/div {:className "text-xl text-gray-600 py-2 font-semibold border-b"} "Total Price: " (.toFixed full-price 2))
        ($ IngredientsWrapper
           ($ ButtonWrapper {:disabled (= 0 (:cheese burger))
                             :on-click (partial set-burger #(update % :cheese dec))} "-")
