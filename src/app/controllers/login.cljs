@@ -13,7 +13,7 @@
   {:keechma.form/submit-data 
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
               (l/pp "value" value)
-              (router/redirect! ctrl :router {:page "home"}))})
+              #_(router/redirect! ctrl :router {:page "home"}))})
 
 (defmethod ctrl/prep :login
   [ctrl]

@@ -38,37 +38,20 @@
         ingredients (get-in burger-state [:current-burger])
         [burger set-burger] (hooks/use-state {:cheese 0 :meat 0 :salad 0 :bacon 0})
         full-price (get-full-price ingredients burger)]
-    (d/div {:className ""}
+    (d/div {:className "container m-auto"}
      (d/div {:className "h-72 w-full m-auto overflow-scroll text-center font-bold text-xl"}
        (d/div {:className "h-full w-full mt-10"}
               ($ BreadTop
                  (d/div {:className "Seeds1"})
-                 (d/div {:className "Seeds2"}))  
-              (case (:cheese burger)
-                0 "Please start adding ingredients!"
-                1  ($ Cheese)
-                2  (d/div ($ Cheese) ($ Cheese))
-                3  (d/div ($ Cheese) ($ Cheese) ($ Cheese))
-                4  (d/div ($ Cheese) ($ Cheese) ($ Cheese) ($ Cheese))
-                5  (d/div ($ Cheese) ($ Cheese) ($ Cheese) ($ Cheese) ($ Cheese)))
-              (case (:meat burger)
-                0 nil
-                1  ($ Meat)
-                2  (d/div ($ Meat) ($ Meat)))
-              (case (:salad burger)
-                0 nil
-                1  ($ Salad)
-                2  (d/div ($ Salad) ($ Salad))
-                3  (d/div ($ Salad) ($ Salad) ($ Salad))
-                4  (d/div ($ Salad) ($ Salad) ($ Salad) ($ Salad))
-                5  (d/div ($ Salad) ($ Salad) ($ Salad) ($ Salad) ($ Salad)))
-              (case (:bacon burger)
-                0 nil
-                1  ($ Bacon)
-                2  (d/div ($ Bacon) ($ Bacon))
-                3  (d/div ($ Bacon) ($ Bacon) ($ Bacon)))
+                 (d/div {:className "Seeds2"}))
+              (if (= 0 (:cheese burger))
+                "Please start adding ingredients!"
+                (map #($ Cheese {:key %}) (range 0 (:cheese burger))))
+              (map #($ Meat {:key %}) (range 0 (:meat burger)))
+              (map #($ Salad {:key %}) (range 0 (:salad burger)))
+              (map #($ Bacon {:key %}) (range 0 (:bacon burger)))
               ($ BreadBottom)))
-     (d/div {:className "text-xl text-gray-600 py-2 font-semibold border-b"} "Total Price: " (.toFixed full-price 2))
+     (d/div {:className "text-lg text-gray-600 py-1 font-semibold border-b"} "Total Price: " (.toFixed full-price 2))
        ($ IngredientsWrapper
           ($ ButtonWrapper {:disabled (= 0 (:cheese burger))
                             :on-click (partial set-burger #(update % :cheese dec))} "-")
