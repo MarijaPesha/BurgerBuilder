@@ -4,6 +4,7 @@
             [keechma.pipelines.core :as pp :refer-macros [pipeline!]]
             [keechma.next.controllers.form :as form]
             [app.validators :as v]
+            [clojure.string :as string]
             [keechma.next.toolbox.logging :as l]
             [keechma.next.controllers.router :as router]))
 
@@ -13,7 +14,14 @@
   {:keechma.form/submit-data 
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
               (l/pp "value" value)
-              #_(router/redirect! ctrl :router {:page "home"}))})
+              (let [user (first (string/split (:email value) #"@"))
+                    email (:email value)
+                    pass (:password value)]
+                (l/pp "value" user)
+                (ctrl/broadcast ctrl :login {:user user
+                                             :email email
+                                             :password pass}))
+              (router/redirect! ctrl :router {:page "home"}))})
 
 (defmethod ctrl/prep :login
   [ctrl]
