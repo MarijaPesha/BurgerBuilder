@@ -3,19 +3,20 @@
             [keechma.next.controllers.dataloader]
             [keechma.next.controllers.subscription]
             [app.controllers.burgerBuilder]
-             [app.controllers.login]
+            [app.controllers.login]
+            [app.controllers.user]
             ["react-dom" :as rdom]))
 
 
 (def app
   {:keechma.subscriptions/batcher rdom/unstable_batchedUpdates,
    :keechma/controllers
-   {:router {:keechma.controller/params true,
-             :keechma.controller/type :keechma/router,
-             :keechma/routes [["" {:page "home"}] ":page" 
-                              ":page/:subpage"]},
-    :dataloader {:keechma.controller/params true,
+   {:router {:keechma.controller/params true
+             :keechma.controller/type :keechma/router
+             :keechma/routes [["" {:page "home"}] ":page"
+                              ":page/:subpage"]}
+    :dataloader {:keechma.controller/params true
                  :keechma.controller/type :keechma/dataloader}
-    :burgerBuilder    #:keechma.controller {:params true} 
-    :login    #:keechma.controller {:params true} 
-    }})
+    :burgerBuilder    #:keechma.controller {:params true}
+    :login    #:keechma.controller {:params true}
+    :user #:keechma.controller {:params true}}})
