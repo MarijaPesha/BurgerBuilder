@@ -33,51 +33,59 @@
      (* (:salad burger) (get-in ingredients [:salad :price]))
      (* (:bacon burger) (get-in ingredients [:bacon :price]))))
 
+(defn all-ingredients [burger]
+  (+ (:cheese burger) (:meat burger) (:salad burger) (:bacon burger)))
+
 (defnc BurgerBuilderRenderer [props]
   (let [burger-state (use-sub props :burgerBuilder)
         ingredients (get-in burger-state [:current-burger])
         [burger set-burger] (hooks/use-state {:cheese 0 :meat 0 :salad 0 :bacon 0})
-        full-price (get-full-price ingredients burger)]
-    (d/div {:className "container m-auto"}
-     (d/div {:className "h-72 w-full m-auto overflow-scroll text-center font-bold text-xl"}
-       (d/div {:className "h-full w-full mt-10"}
-              ($ BreadTop
-                 (d/div {:className "Seeds1"})
-                 (d/div {:className "Seeds2"}))
-              (if (= 0 (:cheese burger))
-                "Please start adding ingredients!"
-                (map #($ Cheese {:key %}) (range 0 (:cheese burger))))
-              (map #($ Meat {:key %}) (range 0 (:meat burger)))
-              (map #($ Salad {:key %}) (range 0 (:salad burger)))
-              (map #($ Bacon {:key %}) (range 0 (:bacon burger)))
-              ($ BreadBottom)))
-     (d/div {:className "text-lg text-gray-600 py-1 font-semibold border-b"} "Total Price: " (.toFixed full-price 2))
-       ($ IngredientsWrapper
-          ($ ButtonWrapper {:disabled (= 0 (:cheese burger))
-                            :on-click (partial set-burger #(update % :cheese dec))} "-")
-          ($ CheeseWrapper (get-in ingredients [:cheese :type]) " Count: " (.toFixed (:cheese burger) 2))
-          ($ ButtonWrapper {:disabled (<= 5 (:cheese burger))
-                            :on-click (partial set-burger #(update % :cheese inc))} "+"))
-       ($ IngredientsWrapper
-          ($ ButtonWrapper {:disabled (= 0 (:meat burger))
-                            :on-click (partial set-burger #(update % :meat dec))} "-")
-          ($ MeatWrapper (get-in ingredients [:meat :type]) " Count:  " (.toFixed (:meat burger) 2))
-          ($ ButtonWrapper {:disabled (<= 2 (:meat burger))
-                            :on-click (partial set-burger #(update % :meat inc))} "+"))
-     ($ IngredientsWrapper
-          ($ ButtonWrapper {:disabled (= 0 (:salad burger))
-                            :on-click (partial set-burger #(update % :salad dec))} "-")
-          ($ SaladWrapper (get-in ingredients [:salad :type]) " Count:  " (.toFixed (:salad burger) 2))
-          ($ ButtonWrapper {:disabled (<= 5 (:salad burger))
-                            :on-click (partial set-burger #(update % :salad inc))} "+"))
-     ($ IngredientsWrapper
-          ($ ButtonWrapper {:disabled (= 0 (:bacon burger))
-                            :on-click (partial set-burger #(update % :bacon dec))} "-")
-          ($ BaconWrapper (get-in ingredients [:bacon :type]) " Count:  " (.toFixed (:bacon burger) 2))
-          ($ ButtonWrapper {:disabled (<= 3 (:bacon burger))
-                            :on-click (partial set-burger #(update % :bacon inc))} "+"))
-     ($ SingUpWrapper
-        ($ SingUpButton {:on-click #(set-burger {:cheese 0 :meat 0 :salad 0 :bacon 0})} "Reset Order")))))
+        full-price (get-full-price ingredients burger)
+        full-ingredients-count (all-ingredients burger)]
+    (d/div {:className ""}
+           ;(d/div {:className "h-72 w-full m-auto overflow-scroll text-center font-bold text-xl"})
+           ;(d/div {:className "h-full w-full mt-10"})
+           (d/div {:className "Burger"}
+                  ($ BreadTop
+                     (d/div {:className "Seeds1"}))
+
+                  (if (= 0 full-ingredients-count)
+                    "Please start adding ingredients!"
+                    nil)
+
+                  (map #($ Cheese {:key %}) (range 0 (:cheese burger)))
+                  (map #($ Meat {:key %}) (range 0 (:meat burger)))
+                  (map #($ Salad {:key %}) (range 0 (:salad burger)))
+                  (map #($ Bacon {:key %}) (range 0 (:bacon burger)))
+                  
+                  ($ BreadBottom))
+           (d/div {:className "text-lg text-gray-600 py-1 font-semibold border-b"} "Total Price: " (.toFixed full-price 2))
+           ($ IngredientsWrapper
+              ($ ButtonWrapper {:disabled (= 0 (:cheese burger))
+                                :on-click (partial set-burger #(update % :cheese dec))} "-")
+              ($ CheeseWrapper (get-in ingredients [:cheese :type]) " Count: " (.toFixed (:cheese burger) 2))
+              ($ ButtonWrapper {:disabled (<= 5 (:cheese burger))
+                                :on-click (partial set-burger #(update % :cheese inc))} "+"))
+           ($ IngredientsWrapper
+              ($ ButtonWrapper {:disabled (= 0 (:meat burger))
+                                :on-click (partial set-burger #(update % :meat dec))} "-")
+              ($ MeatWrapper (get-in ingredients [:meat :type]) " Count:  " (.toFixed (:meat burger) 2))
+              ($ ButtonWrapper {:disabled (<= 2 (:meat burger))
+                                :on-click (partial set-burger #(update % :meat inc))} "+"))
+           ($ IngredientsWrapper
+              ($ ButtonWrapper {:disabled (= 0 (:salad burger))
+                                :on-click (partial set-burger #(update % :salad dec))} "-")
+              ($ SaladWrapper (get-in ingredients [:salad :type]) " Count:  " (.toFixed (:salad burger) 2))
+              ($ ButtonWrapper {:disabled (<= 5 (:salad burger))
+                                :on-click (partial set-burger #(update % :salad inc))} "+"))
+           ($ IngredientsWrapper
+              ($ ButtonWrapper {:disabled (= 0 (:bacon burger))
+                                :on-click (partial set-burger #(update % :bacon dec))} "-")
+              ($ BaconWrapper (get-in ingredients [:bacon :type]) " Count:  " (.toFixed (:bacon burger) 2))
+              ($ ButtonWrapper {:disabled (<= 3 (:bacon burger))
+                                :on-click (partial set-burger #(update % :bacon inc))} "+"))
+           ($ SingUpWrapper
+              ($ SingUpButton {:on-click #(set-burger {:cheese 0 :meat 0 :salad 0 :bacon 0})} "Reset Order")))))
 
 (def BurgerBuilder (with-keechma BurgerBuilderRenderer))
 

@@ -19,7 +19,7 @@
     ($ LoginContainer
       ($ FormWrapper 
           (d/h1
-           {:class "text-gray-600 font-semibold py-3"}
+           {:class "text-green-700 font-semibold py-3 animate-pulse text-2xl"}
            "Login to add order!")
           (d/form
             {:on-submit (fn [e]
