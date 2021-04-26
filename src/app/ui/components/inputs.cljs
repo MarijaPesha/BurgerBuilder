@@ -57,7 +57,9 @@
 
 (defnc
   TextInputRenderer
-  [{:keechma.form/keys [controller], :input/keys [attr], :as props}]
+  [{:keechma.form/keys [controller]
+    :input/keys [attr]
+    :as props}]
   (let [element-props (get-element-props {} props)
         value-getter (hooks/use-callback [attr] #(form/get-data-in % attr))
         value (use-meta-sub props controller value-getter)]
@@ -74,14 +76,43 @@
 
 (def TextInput (with-keechma TextInputRenderer))
 
+(defnc 
+  SelectInputRenderer 
+  [{:keechma.form/keys [controller medak]
+    :input/keys        [attr]
+    :as                props}]
+  (let [element-props (get-element-props {} props)
+        value-getter  (hooks/use-callback [attr] #(form/get-data-in % attr))
+        value         (use-meta-sub props controller value-getter)
+        {:keys [options]} props]
+      (d/div {:class ""}
+             (d/select {:key       value
+                        :value     (str value)
+                        :on-change #(dispatch props
+                                              controller
+                                              :keechma.form.on/change
+                                              {:value (.. % -target -value) :attr attr})
+                        :on-blur   #(dispatch props
+                                              controller
+                                              :keechma.form.on/blur
+                                              {:value (.. % -target -value) :attr attr})
+                        &          element-props}
+                       
+                         (map
+                          (fn [{:keys [value label]}]
+                            (d/option {:value value
+                                       :key   value}
+                                      label))
+                          options)))))
+
+(def SelectInput (with-keechma SelectInputRenderer))
+
 (defmulti input (fn [props] (:input/type props)))
-
-(defmethod input :text [props] ($ TextInput {& props}))
-
+(defmethod input :text     [props] ($ TextInput {& props}))
 (defmethod input :textarea [props] ($ TextArea {& props}))
+(defmethod input :select   [props] ($ SelectInput {& props}))
 
 (defmulti wrapped-input (fn [props] (:input/type props)))
-
 (defmethod wrapped-input :default [props] (input props))
 
 (defmethod wrapped-input :text
@@ -94,5 +125,13 @@
 (defmethod wrapped-input :textarea
   [props]
   (d/fieldset {:class "form-group"}
-              (input (assoc props :class "form-control form-control-lg"))
+              (input (assoc props :class (str "form-control form-control-lg" "w-96 outline-none my-3 cursor-pointer border-b hover:border-green-500  bg-white ")))
+              ($ Errors {& props})))
+
+(defmethod wrapped-input :select 
+  [props]
+  (d/fieldset {:class "w-full text-md"}
+              (input (assoc props :class "appearance-none bg-gray-500 py-2 px-4 rounded-lg
+                                                   leading-tight focus:outline-none text-gray-100
+                                                   outline-none cursor-pointer my-3 w-96 box-content"))
               ($ Errors {& props})))

@@ -1,5 +1,8 @@
 (ns app.controllers.burgerBuilder
-  (:require [keechma.next.controller :as ctrl]))
+  (:require [keechma.next.controller :as ctrl]
+            [keechma.next.controllers.pipelines :as pipelines]
+            [keechma.pipelines.core :as pp :refer-macros [pipeline!]]
+            [keechma.next.controllers.router :as router]))
 
 (derive :burgerBuilder :keechma/controller)
 

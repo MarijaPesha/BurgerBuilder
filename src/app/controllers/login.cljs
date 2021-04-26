@@ -5,28 +5,43 @@
             [keechma.next.controllers.form :as form]
             [app.validators :as v]
             [clojure.string :as string]
-            [keechma.next.toolbox.logging :as l]
+           [keechma.next.toolbox.logging :as l]
+            [keechma.next.toolbox.ajax :refer [GET POST DELETE PUT]]
+            [app.settings :refer [api-endpoint]]
+          ; [promesa.core :as p]            [oops.core :refer [ocall oget]]
             [keechma.next.controllers.router :as router]))
 
 (derive :login ::pipelines/controller)
 
+(defn user-create
+  [{:keys [username password email]}]
+  (POST (str api-endpoint "/users.json")
+    {:response-format :json, :keywords? true, :format :json
+     :params
+     {:username username
+      :password password
+      :email email}}))
+
 (def pipelines
-  {:keechma.form/submit-data 
+  {:keechma.form/submit-data
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
-              (l/pp "value" value)
-              (let [user (first (string/split (:email value) #"@"))
+              #_(l/pp "value" value)
+              (let [user (:name value)
                     email (:email value)
                     pass (:password value)]
-                (l/pp "value" user)
-                (ctrl/broadcast ctrl :login {:user user
-                                             :email email
-                                             :password pass}))
-              (router/redirect! ctrl :router {:page "home"}))})
+                (user-create {:username user
+                              :password pass
+                              :email email})
+                (ctrl/broadcast ctrl :login-data {:user user
+                                                  :email email
+                                                  :pass pass}))
+              (router/redirect! ctrl :router {:page "order"}))})
 
 (defmethod ctrl/prep :login
   [ctrl]
   (pipelines/register ctrl
                       (form/wrap pipelines
-                                 (v/to-validator {:email [:email :not-empty],
+                                 (v/to-validator {:name [:not-empty]
+                                                  :email [:email :not-empty]
                                                   :password [:not-empty
                                                              :ok-password]}))))

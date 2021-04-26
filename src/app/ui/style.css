@@ -14,6 +14,87 @@
   font-size: 1.2rem;
 }
 
+.Cheese {
+  width: 38%;
+  height: 4.5%;
+  margin: 0.1rem auto;
+  background: linear-gradient(#f4d004, #d6bb22);
+  border-radius: 20px;
+  animation: slideFromLeft 0.5s ease-in-out;
+}
+
+.Meat {
+  width: 34%;
+  height: 8%;
+  background: linear-gradient(#7f3608, #702e05);
+  margin: 0.1rem auto;
+  border-radius: 15px;
+  animation: slideFromRight 0.7s ease-in-out;
+}
+
+.Salad {
+  width: 40%;
+  height: 5%;
+  margin: 0.1rem auto;
+  background: linear-gradient(#228c1d, #91ce50);
+  border-radius: 20px;
+  animation: slideFromLeft 0.5s ease-in-out;
+}
+
+.Bacon {
+  width: 35%;
+  height: 3%;
+  background: linear-gradient(#bf3813, #c45e38);
+  margin: 0.1rem auto;
+  animation: slideFromRight 0.7s ease-in-out;
+}
+
+@keyframes slideFromLeft {
+  from {
+  opacity: 0;
+  transform: translateX(-50%);
+  }
+  25% {
+  opacity: 0.5;
+  transform: translateX(-25%);
+    }
+  50% {
+  opacity: 0.8;
+  transform: translateX(-10%);
+      }
+  to {
+  opacity: 1;
+  transform: translateX(0);
+  }
+}
+
+@keyframes slideFromRight {
+  from {
+  opacity: 0;
+  transform: translateX(110%);
+  }
+  15% {
+  opacity: 0.5;
+  transform: translateX(80%);
+    }
+  30% {
+  opacity: 0.6;
+  transform: translateX(60%);
+      }
+  50% {
+  opacity: 0.8;
+  transform: translateX(40%);
+      }
+  57% {
+  opacity: 0.9;
+  transform: translateX(20%);
+        }
+  to {
+  opacity: 1;
+  transform: translateX(0);
+  }
+}
+
 .Seeds1 {
   width: 5%;
   height: 10%;
@@ -51,3 +132,5 @@
   transform: rotate(60deg);
   box-shadow: inset -1px -3px #c9c9c9;
 }
+
+

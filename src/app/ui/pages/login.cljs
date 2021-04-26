@@ -6,6 +6,7 @@
             ["react-dom" :as rdom]
             [app.ui.components.inputs :refer [wrapped-input]]
             [keechma.next.controllers.router :as router]
+            ["firebase/app" :as Firebase]
             [keechma.next.helix.classified :refer [defclassified]]
             [helix.core :as hx :refer [$]]))
 
@@ -25,6 +26,10 @@
             {:on-submit (fn [e]
                           (.preventDefault e)
                           (dispatch props :login :keechma.form/submit))}
+            (wrapped-input {:keechma.form/controller :login,
+                             :input/type :text
+                             :input/attr [:name]
+                             :placeholder "Name"})
             (wrapped-input {:keechma.form/controller :login,
                             :input/type :text,
                             :input/attr :email,
