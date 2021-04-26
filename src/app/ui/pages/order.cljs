@@ -41,6 +41,6 @@
                              :input/attr :select
                              :options [{:value "default" :label "Fastest"}
                                        {:value "caucasian" :label "Cheapest"}]})
-             ($ ButtonType {:onClick #()} "Confirm Order")))))))
+             ($ ButtonType "Confirm Order")))))))
 
 (def Order (with-keechma OrderRenderer))

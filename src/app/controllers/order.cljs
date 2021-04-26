@@ -24,8 +24,7 @@
       :delivery delivery}}))
 
 (def pipelines
-  {:keechma.on/start order-create
-   :keechma.form/submit-data
+  {:keechma.form/submit-data
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
               (let [street (:street value)
                     zipcode (:zipcode value)
