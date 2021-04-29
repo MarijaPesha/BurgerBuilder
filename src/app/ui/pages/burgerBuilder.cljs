@@ -2,13 +2,11 @@
   (:require [helix.dom :as d]
             [helix.core :as hx :refer [$]]
             [keechma.next.helix.lib :refer [defnc]]
-            [app.ui.components.inputs :refer [wrapped-input]]
             [keechma.next.helix.core :refer [with-keechma use-sub dispatch]]
             [keechma.next.helix.classified :refer [defclassified]]
             [helix.hooks :as hooks]
             [keechma.next.controllers.router :as router]
-            [keechma.next.toolbox.logging :as l]
-          #_[app.ui.components.burger :refer [Burger]]))
+            [keechma.next.toolbox.logging :as l]))
 
 ;; style for burger 
 (defclassified BreadTop :div "w-2/6 h-1/4 w-3/5 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-t-full shadow-sm relative my-0.5 mx-auto")
@@ -21,71 +19,36 @@
 ;; style for count&price
 (defclassified IngredientsWrapper :div "flex justify-between items-center my-3 mx-32")
 (defclassified ButtonWrapper :button "disabled:opacity-50 cursor-pointer bg-white hover:bg-gray-100 text-gray-800 font-semibold py-0 px-4 border border-gray-400 rounded shadow")
-(defclassified CheeseWrapper :div "text-yellow-400 font-semibold border-b")
-(defclassified MeatWrapper :div "text-yellow-800 font-semibold border-b")
-(defclassified SaladWrapper :div "text-green-600 font-semibold border-b")
-(defclassified BaconWrapper :div "text-red-700 font-semibold border-b") 
-(defclassified SingUpWrapper :div "flex w-full items-center justify-between text-sm mt-6")
-(defclassified ButtonType :button "my-6 cursor-pointer bg-white text-sm hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-auto")
-
-(defn get-full-price [ingredients burger]
-  (+ (* (:cheese burger) (get-in ingredients [:cheese :price]))
-     (* (:meat burger) (get-in ingredients [:meat :price]))
-     (* (:salad burger) (get-in ingredients [:salad :price]))
-     (* (:bacon burger) (get-in ingredients [:bacon :price]))))
-
-(defn all-ingredients [burger]
-  (+ (:cheese burger) (:meat burger) (:salad burger) (:bacon burger)))
+(defclassified IngredientsTextWrapper :div " text-gray-600 font-semibold border-b")
+(defclassified SingUpWrapper :div "flex w-full items-center text-sm mt-6")
+(defclassified SingUpButton :button "cursor-pointer bg-white hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-auto")
 
 (defnc BurgerBuilderRenderer [props]
-  (let [burger-state (use-sub props :burgerBuilder)
-        ingredients (get-in burger-state [:current-burger])
-        [burger set-burger] (hooks/use-state {:cheese 0 :meat 0 :salad 0 :bacon 0})
-        full-price (get-full-price ingredients burger)
-        full-ingredients-count (all-ingredients burger)]
+  (let [ingredients (use-sub props :burgerBuilder)
+        total-price (:total-price (get ingredients 4))]
+    (l/pp "state" ingredients)
     (d/div {:className ""}
            (d/div {:className "Burger"}
                   ($ BreadTop
                      (d/div {:className "Seeds1"}))
-                  (if (= 0 full-ingredients-count)
+                  (if (= 0 total-price)
                     "Please start adding ingredients!"
                     nil)
-                  (map #($ Cheese {:key %}) (range 0 (:cheese burger)))
-                  (map #($ Meat {:key %}) (range 0 (:meat burger)))
-                  (map #($ Salad {:key %}) (range 0 (:salad burger)))
-                  (map #($ Bacon {:key %}) (range 0 (:bacon burger)))
+                  (map #($ Cheese {:key %}) (range 0 (:count (get ingredients 0))))
+                  (map #($ Meat {:key %}) (range 0 (:count (get ingredients 1))))
+                  (map #($ Salad {:key %}) (range 0 (:count (get ingredients 2))))
+                  (map #($ Bacon {:key %}) (range 0 (:count (get ingredients 3))))
                   ($ BreadBottom))
-      
-           (d/div
-            (d/div {:className "text-lg text-gray-600 py-1 font-semibold border-b"} "Total Price: " (.toFixed full-price 2))
-            ($ IngredientsWrapper
-               ($ ButtonWrapper {:disabled (= 0 (:cheese burger))
-                                 :on-click (partial set-burger #(update % :cheese dec))} "-")
-               ($ CheeseWrapper (get-in ingredients [:cheese :type]) " Count: " (.toFixed (:cheese burger) 2))
-               ($ ButtonWrapper {:disabled (<= 5 (:cheese burger))
-                                 :on-click (partial set-burger #(update % :cheese inc))} "+"))
-            ($ IngredientsWrapper
-               ($ ButtonWrapper {:disabled (= 0 (:meat burger))
-                                 :on-click (partial set-burger #(update % :meat dec))} "-")
-               ($ MeatWrapper (get-in ingredients [:meat :type]) " Count:  " (.toFixed (:meat burger) 2))
-               ($ ButtonWrapper {:disabled (<= 2 (:meat burger))
-                                 :on-click (partial set-burger #(update % :meat inc))} "+"))
-            ($ IngredientsWrapper
-               ($ ButtonWrapper {:disabled (= 0 (:salad burger))
-                                 :on-click (partial set-burger #(update % :salad dec))} "-")
-               ($ SaladWrapper (get-in ingredients [:salad :type]) " Count:  " (.toFixed (:salad burger) 2))
-               ($ ButtonWrapper {:disabled (<= 5 (:salad burger))
-                                 :on-click (partial set-burger #(update % :salad inc))} "+"))
-            ($ IngredientsWrapper
-               ($ ButtonWrapper {:disabled (= 0 (:bacon burger))
-                                 :on-click (partial set-burger #(update % :bacon dec))} "-")
-               ($ BaconWrapper (get-in ingredients [:bacon :type]) " Count:  " (.toFixed (:bacon burger) 2))
-               ($ ButtonWrapper {:disabled (<= 3 (:bacon burger))
-                                 :on-click (partial set-burger #(update % :bacon inc))} "+"))
-            ($ SingUpWrapper
-               ($ ButtonType {:on-click #(set-burger {:cheese 0 :meat 0 :salad 0 :bacon 0})} "Reset Order"))))))
+           (d/div {:className "text-lg text-gray-600 py-1 font-semibold border-b"} "Total Price: " (.toFixed total-price 2))
+            (map-indexed
+             (fn [idx i]
+               ($ IngredientsWrapper {:key (:type i)}
+                  ($ ButtonWrapper {:disabled (= 0 (:count i))
+                                    :onClick #(dispatch props :burgerBuilder :dec-count idx)} "-")
+                  ($ IngredientsTextWrapper (:type i) " Count: " (:count i))
+                  ($ ButtonWrapper {:disabled (<= 3 (:count i))
+                                    :onClick #(dispatch props :burgerBuilder :add-count idx)} "+"))) (take 4 ingredients))
+           ($ SingUpWrapper
+              ($ SingUpButton {:onClick #(dispatch props :burgerBuilder :restart)} "Reset Order")))))
 
 (def BurgerBuilder (with-keechma BurgerBuilderRenderer))
-
-
-
