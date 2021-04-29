@@ -14,6 +14,7 @@
 (defclassified OrderContainer :div "container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700")
 (defclassified FormWrapper :div "max-w-md")
 (defclassified ButtonType :button "my-16 cursor-pointer bg-white text-sm hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-auto")
+(defclassified TextWrapper :div "text-green-700 font-semibold py-3 animate-pulse text-2xl")
 
 (defnc OrderRenderer
   [props]
@@ -26,7 +27,8 @@
              {:on-submit (fn [e]
                            (.preventDefault e)
                            (dispatch props :order :keechma.form/submit))}
-             (d/p {:className "text-xs font-semibold"} "Please Leave Your Information Below:")
+             ($ TextWrapper
+                "Please Leave Your Information Below:")
              (wrapped-input {:keechma.form/controller :order
                              :input/type :text
                              :input/attr [:street]
@@ -35,12 +37,14 @@
                              :input/type :text
                              :input/attr [:zipcode]
                              :placeholder "Zip Code"})
-             (d/p {:className "text-xs font-semibold mt-6"} "Select Delivery Method:")
+             ($ TextWrapper 
+                "Select Delivery Method:")
              (wrapped-input {:keechma.form/controller :order
                              :input/type :select
                              :input/attr :select
                              :options [{:value "default" :label "Fastest"}
                                        {:value "caucasian" :label "Cheapest"}]})
-             ($ ButtonType "Confirm Order")))))))
+             ($ ButtonType 
+                "Confirm Order")))))))
 
 (def Order (with-keechma OrderRenderer))

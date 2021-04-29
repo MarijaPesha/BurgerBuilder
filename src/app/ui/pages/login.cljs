@@ -15,7 +15,8 @@
 (defclassified ButtonWrapper :button "my-3 cursor-pointer bg-white hover:bg-gray-100 text-gray-600 font-semibold py-1 px-4 border border-gray-400 rounded shadow m-auto")
 (defclassified TextWrapper :div "text-green-700 font-semibold py-3 animate-pulse text-2xl")
 
-(defnc LoginRenderer [props]
+(defnc LoginRenderer 
+  [props]
   ($ LoginWrapper
     ($ LoginContainer
       ($ FormWrapper
