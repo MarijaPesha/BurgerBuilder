@@ -6,6 +6,7 @@
             [app.ui.pages.home :refer [Home]]
             [app.ui.pages.login :refer [Login]]
             [app.ui.pages.order :refer [Order]]
+            [app.ui.pages.end :refer [End]]
             [app.ui.components.errorPage :refer [Error]]))
 
 (defnc MainRenderer [props]
@@ -14,6 +15,7 @@
       "home" ($ Home)
       "login" ($ Login)
       "order" ($ Order)
+      "end" ($ End)
       (d/div ($ Error)))))
 
 (def Main (with-keechma MainRenderer))
