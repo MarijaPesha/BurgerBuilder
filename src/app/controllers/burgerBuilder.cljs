@@ -1,7 +1,7 @@
 (ns app.controllers.burgerBuilder
   (:require [keechma.next.controller :as ctrl]
-            [keechma.next.toolbox.logging :as l])
-  )
+            [keechma.next.controllers.pipelines :as pipelines]
+            [keechma.next.toolbox.logging :as l]))
 
 (derive :burgerBuilder :keechma/controller)
  

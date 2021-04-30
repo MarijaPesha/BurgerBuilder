@@ -10,7 +10,7 @@
             [helix.core :as hx :refer [$]]))
 
 (defclassified LoginWrapper :div "h-screen w-screen flex items-center")
-(defclassified LoginContainer :div "container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700")
+(defclassified LoginContainer :div "m-auto container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700")
 (defclassified FormWrapper :div "max-w-md")
 (defclassified ButtonWrapper :button "my-3 cursor-pointer bg-white hover:bg-gray-100 text-gray-600 font-semibold py-1 px-4 border border-gray-400 rounded shadow m-auto")
 (defclassified TextWrapper :div "text-green-700 font-semibold py-3 animate-pulse text-2xl")

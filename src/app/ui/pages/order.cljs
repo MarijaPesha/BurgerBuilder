@@ -11,7 +11,7 @@
             [keechma.next.toolbox.logging :as l]))
 
 (defclassified OrderWrapper :div "h-screen w-screen flex items-center")
-(defclassified OrderContainer :div "container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700")
+(defclassified OrderContainer :div "m-auto container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700")
 (defclassified FormWrapper :div "max-w-md")
 (defclassified ButtonType :button "my-16 cursor-pointer bg-white text-sm hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-auto")
 (defclassified TextWrapper :div "text-green-700 font-semibold py-3 animate-pulse text-2xl")
@@ -37,14 +37,14 @@
                              :input/type :text
                              :input/attr [:zipcode]
                              :placeholder "Zip Code"})
-             ($ TextWrapper 
+             ($ TextWrapper
                 "Select Delivery Method:")
              (wrapped-input {:keechma.form/controller :order
                              :input/type :select
                              :input/attr :select
                              :options [{:value "default" :label "Fastest"}
                                        {:value "caucasian" :label "Cheapest"}]})
-             ($ ButtonType 
+             ($ ButtonType
                 "Confirm Order")))))))
 
 (def Order (with-keechma OrderRenderer))

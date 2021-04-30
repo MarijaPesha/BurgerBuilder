@@ -21,7 +21,7 @@
 (defclassified ButtonWrapper :button "disabled:opacity-50 cursor-pointer bg-white hover:bg-gray-100 text-gray-800 font-semibold py-0 px-4 border border-gray-400 rounded shadow")
 (defclassified IngredientsTextWrapper :div " text-gray-600 font-semibold border-b")
 (defclassified SingUpWrapper :div "flex w-full items-center text-sm mt-6")
-(defclassified SingUpButton :button "cursor-pointer bg-white hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-auto")
+(defclassified RestartButton :button "cursor-pointer bg-white hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-auto")
 
 (defnc BurgerBuilderRenderer [props]
   (let [ingredients (use-sub props :burgerBuilder)
@@ -32,7 +32,7 @@
                   ($ BreadTop
                      (d/div {:className "Seeds1"}))
                   (if (= 0 total-price)
-                    "Please start adding ingredients!"
+                    (d/div {:className "my-4"} "Please start adding ingredients!")
                     nil)
                   (map #($ Cheese {:key %}) (range 0 (:count (get ingredients 0))))
                   (map #($ Meat {:key %}) (range 0 (:count (get ingredients 1))))
@@ -49,6 +49,6 @@
                   ($ ButtonWrapper {:disabled (<= 3 (:count i))
                                     :onClick #(dispatch props :burgerBuilder :add-count idx)} "+"))) (take 4 ingredients))
            ($ SingUpWrapper
-              ($ SingUpButton {:onClick #(dispatch props :burgerBuilder :restart)} "Reset Order")))))
+              ($ RestartButton {:onClick #(dispatch props :burgerBuilder :restart)} "Reset Order")))))
 
 (def BurgerBuilder (with-keechma BurgerBuilderRenderer))

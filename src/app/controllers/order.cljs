@@ -32,7 +32,7 @@
                 (order-create {:street street
                                :zipcode zipcode
                                :delivery delivery}))
-              (router/redirect! ctrl :router {:page "home"}))})
+              (router/redirect! ctrl :router {:page "end"}))})
 
 (defmethod ctrl/prep :order 
   [ctrl]
