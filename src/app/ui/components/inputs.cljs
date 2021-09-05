@@ -119,7 +119,7 @@
   [props]
   (d/fieldset {:class ""}
               ($ Errors {& props})
-              (input (assoc props :class (str "form-control form-control-lg " "w-96 outline-none my-3 cursor-pointer border-b hover:border-green-500  bg-white ")))
+              (input (assoc props :class (str "form-control form-control-lg " "Caret  w-96 outline-none my-3 cursor-pointer border-b hover:border-green-500  bg-white ")))
               ))
 
 (defmethod wrapped-input :textarea
@@ -131,7 +131,7 @@
 (defmethod wrapped-input :select 
   [props]
   (d/fieldset {:class "w-full text-md"}
-              (input (assoc props :class "appearance-none bg-gray-100 py-2 px-4 rounded-lg
+              (input (assoc props :class "Caret appearance-none bg-gray-100 py-2 px-4 rounded-lg
                                                    leading-tight focus:outline-none text-gray-700
                                                    outline-none cursor-pointer my-3 w-96 box-content"))
               ($ Errors {& props})))

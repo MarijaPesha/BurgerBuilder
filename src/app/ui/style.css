@@ -25,7 +25,7 @@ body {
   margin: 0.1rem auto;
   background: linear-gradient(#f4d004, #d6bb22);
   border-radius: 20px;
-  animation: slideFromLeft 0.5s ease-in-out;
+  animation: slideFromLeft 1s ease-in-out;
 }
 
 .Meat {
@@ -34,7 +34,7 @@ body {
   background: linear-gradient(#7f3608, #702e05);
   margin: 0.1rem auto;
   border-radius: 15px;
-  animation: slideFromRight 0.7s ease-in-out;
+  animation: slideFromRight 1s ease-in-out;
 }
 
 .Salad {
@@ -43,7 +43,7 @@ body {
   margin: 0.1rem auto;
   background: linear-gradient(#228c1d, #91ce50);
   border-radius: 20px;
-  animation: slideFromLeft 0.5s ease-in-out;
+  animation: slideFromLeft 1s ease-in-out;
 }
 
 .Bacon {
@@ -51,7 +51,7 @@ body {
   height: 3%;
   background: linear-gradient(#bf3813, #c45e38);
   margin: 0.1rem auto;
-  animation: slideFromRight 0.7s ease-in-out;
+  animation: slideFromRight 1s ease-in-out;
 }
 
 @keyframes slideFromLeft {
@@ -185,6 +185,15 @@ body {
     top: -6000px;
     transform: rotateX(25deg) translateZ(-2500px);
   }
+}
+
+.Caret {
+  caret-color: #A7F3D0;
+  color: rgba(4, 120, 87, 0.8);
+}
+
+.Caret::placeholder {
+  color: rgba(5, 150, 105, 0.5);
 }
 
 

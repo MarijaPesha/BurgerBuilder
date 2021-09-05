@@ -6,6 +6,7 @@
             [app.ui.pages.home :refer [Home]]
             [app.ui.pages.login :refer [Login]]
             [app.ui.pages.order :refer [Order]]
+            [app.ui.pages.checkout :refer [Checkout]]
             [app.ui.pages.end :refer [End]]
             [app.ui.components.errorPage :refer [Error]]))
 
@@ -15,6 +16,7 @@
       "home" ($ Home)
       "login" ($ Login)
       "order" ($ Order)
+      "checkout" ($ Checkout)
       "end" ($ End)
       (d/div ($ Error)))))
 
